@@ -1,0 +1,11 @@
+/backend/vendor
+/backend/node_modules
+/backend/.env
+/backend/storage/*.key
+
+mobile/.dart_tool
+mobile/build
+
+admin/node_modules
+
+.DS_Store
