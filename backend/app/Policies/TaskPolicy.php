@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRole;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class TaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +22,12 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->id === $task->user_id || $user->isAdmin();
+        return $user->id === $task->user_id;
+    }
+
+    public function viewAdmin(User $user, Task $task): bool
+    {
+        return $user->role == UserRole::ADMIN;
     }
 
     /**

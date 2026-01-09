@@ -53,6 +53,16 @@ public function updateStatus(Request $request, Task $task)
     return response()->json($task);
 }
 
+
+public function update(Request $request,Task $task){
+    $this->authorize('update', $task);
+    return response()->json($task);
+}
+public function show(Task $task){
+    $this->authorize('view', $task);
+    return response()->json($task);
+}
+
 public function destroy(Request $request, Task $task)
 {
     $this->authorize('delete', $task);

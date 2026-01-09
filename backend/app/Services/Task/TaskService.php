@@ -7,6 +7,7 @@ use App\Enums\TaskStatus;
 use App\Models\Task;
 use App\Models\User;
 use App\Services\Activity\ActivityLogService;
+use Illuminate\Auth\AuthenticationException;
 
 class TaskService
 {
@@ -38,6 +39,10 @@ class TaskService
     }
 
     public function delete(Task $task, User $actor){
+        if ($actor->role->value !== 'admin' && $task->user_id !== $actor->id) {
+            throw new AuthenticationException('Forbidden');
+        }
+
         $old = $task->toArray();
         $task->delete();
 
