@@ -13,10 +13,23 @@ class AdminTaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->authorize('viewAdmin', Task::class);
-        return Task::with('user')->latest()->get();
+        $tasks = Task::with('user')
+            ->when(
+                $request->status,
+                fn($q) =>
+                $q->where('status', $request->status)
+            )
+            ->when(
+                $request->priority,
+                fn($q) =>
+                $q->where('priority', $request->priority)
+            )
+            ->latest()
+            ->paginate(20);
+
+        return view('admin.tasks.index', compact('tasks'));
     }
 
     /**

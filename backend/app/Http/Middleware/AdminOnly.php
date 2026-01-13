@@ -17,7 +17,7 @@ class AdminOnly
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if (!$user || $user->role !== UserRole::ADMIN->value) {
+        if (!$user || $user->role !== UserRole::ADMIN) {
             abort(403, 'Admin Only');
         }
 
